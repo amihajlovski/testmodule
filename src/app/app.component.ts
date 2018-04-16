@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { User } from './models/user';
 
@@ -9,13 +9,15 @@ import { User } from './models/user';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  private usersCollection: AngularFirestoreCollection<User>;
   title = 'app';
   user: User;
   users: Observable<any[]>;
   locationOptions: any;
 
   constructor(db: AngularFirestore) {
-    this.users = db.collection('/users').valueChanges();
+    this.usersCollection = db.collection<User>('users');
+    this.users = this.usersCollection.valueChanges();
     this.locationOptions = {types: []};
     this.user = new User('', '', {
       name: '',
@@ -32,5 +34,6 @@ export class AppComponent {
 
   saveUser() {
     console.log(this.user);
+    this.usersCollection.add(Object.assign({}, this.user));
   }
 }
