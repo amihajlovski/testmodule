@@ -21,13 +21,13 @@ import { GoogleMapComponent } from './google-map/google-map.component';
     GoogleMapComponent
   ],
   imports: [
-    BrowserModule,
-    AngularFireModule.initializeApp(environment.firebase),
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey,
       libraries: ["places"]
     }),
+    AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    BrowserModule,    
     GooglePlaceModule,
     FormsModule,
     ReactiveFormsModule
