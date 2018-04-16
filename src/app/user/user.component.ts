@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, NgZone, ViewChild } from '@angular/core';
+import { FormControl } from "@angular/forms";
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { MapsAPILoader } from '@agm/core';
 import { User } from '../models/user';
 
 @Component({
@@ -8,14 +10,19 @@ import { User } from '../models/user';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-
+  @ViewChild("search")
+  public searchElementRef: ElementRef;
   private usersCollection: AngularFirestoreCollection<User>;
-  title = 'app';
+  public searchControl: FormControl;
   user: User;
   locationOptions: any;
   errorFields: any = [];
 
-  constructor(private readonly afs: AngularFirestore) {
+  constructor(
+    private readonly afs: AngularFirestore, 
+    private mapsAPILoader: MapsAPILoader,
+    private ngZone: NgZone
+  ) {
     this.usersCollection = afs.collection<User>('users');
     this.locationOptions = {types: []};
     this.user = new User('', '', {
@@ -25,12 +32,29 @@ export class UserComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.searchControl = new FormControl();
+    this.mapsAPILoader.load().then(() => {
+      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: ["address"]
+      });
+      autocomplete.addListener("place_changed", () => {
+        this.ngZone.run(() => {
+          //get the place result
+          let place = autocomplete.getPlace();
+  
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
 
-  handleAddressChange(address) {
-    this.user.location.latitude = address.geometry.location.lat();
-    this.user.location.longitude = address.geometry.location.lng();
-    this.user.location.name = address.formatted_address;
+          this.user.location.latitude = place.geometry.location.lat();
+          this.user.location.longitude = place.geometry.location.lng();
+          this.user.location.name = place.name;
+          
+        });
+      });
+    });
   }
 
   saveUser() {

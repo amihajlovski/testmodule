@@ -29,10 +29,9 @@
               class="form-control" 
               [ngClass]="{'invalid-input': errorFields.includes('location')}"
               placeholder="Location" 
-              ngx-google-places-autocomplete 
-              [options]="locationOptions"
-              #placesRef="ngx-places"
-              (onAddressChange)="handleAddressChange($event)"/>
+              [formControl]="searchControl"
+              autocorrect="off" autocapitalize="off" spellcheck="off"
+              #search/>
       </div>
     </div>
 
