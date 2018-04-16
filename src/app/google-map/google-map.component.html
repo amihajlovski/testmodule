@@ -1,3 +1,10 @@
-<agm-map class="map" [latitude]="latitude" [longitude]="longitude" [scrollwheel]="true" [zoom]="12">
-    <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+<agm-map class="map"
+ [latitude]="defaultLocation.latitude"
+ [longitude]="defaultLocation.longitude" [scrollwheel]="true" [zoom]="7">
+    <agm-marker 
+        *ngFor="let user of users | async"
+        [latitude]="user.location.latitude"
+        [longitude]="user.location.longitude"
+        [label]="user.firstName[0] || ''">
+    </agm-marker>
 </agm-map>

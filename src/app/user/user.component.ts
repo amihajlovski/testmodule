@@ -24,16 +24,15 @@ export class UserComponent implements OnInit {
     private ngZone: NgZone
   ) {
     this.usersCollection = afs.collection<User>('users');
-    this.locationOptions = {types: []};
-    this.user = new User('', '', {
-      name: '',
-      latitude: null,
-      longitude: null
-    });
   }
 
   ngOnInit() {
     this.searchControl = new FormControl();
+    this.initUser();
+    this.initGooglePlaces();
+  }
+
+  initGooglePlaces() {
     this.mapsAPILoader.load().then(() => {
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
         types: []
@@ -57,6 +56,14 @@ export class UserComponent implements OnInit {
     });
   }
 
+  initUser() {
+    this.user = new User('', '', {
+      name: '',
+      latitude: null,
+      longitude: null
+    });
+  }
+
   saveUser() {
     this.errorFields = this.user.validate();
     const userValid = this.errorFields.length === 0;
@@ -64,7 +71,7 @@ export class UserComponent implements OnInit {
       const id = this.afs.createId();
       this.user.id = id;
       this.usersCollection.add(Object.assign({}, this.user))
-      .then(res => {})
+      .then(res => { this.initUser(); })
       .catch(reason => console.log(reason));
     }
   }

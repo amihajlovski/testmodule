@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { Observable } from 'rxjs/Observable';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-google-map',
@@ -7,13 +10,15 @@ import { AgmCoreModule } from '@agm/core';
   styleUrls: ['./google-map.component.css']
 })
 export class GoogleMapComponent implements OnInit {
+  users: Observable<any[]>;  
+  private usersCollection: AngularFirestoreCollection<User>;
+  markers = [];
+  defaultLocation: any;
 
-  latitude: number;
-  longitude: number;
-
-  constructor() { 
-    this.latitude = 41;
-    this.longitude = 22;
+  constructor(db: AngularFirestore) { 
+    this.usersCollection = db.collection<User>('users');
+    this.users = this.usersCollection.valueChanges();
+    this.defaultLocation = {longitude: 21.4, latitude: 42};
   }
 
   ngOnInit() {
