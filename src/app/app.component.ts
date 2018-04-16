@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
+import { User } from './models/user';
 
 @Component({
   selector: 'app-root',
@@ -9,13 +10,27 @@ import { Observable } from 'rxjs/Observable';
 })
 export class AppComponent {
   title = 'app';
+  user: User;
   users: Observable<any[]>;
+  locationOptions: any;
 
   constructor(db: AngularFirestore) {
     this.users = db.collection('/users').valueChanges();
+    this.locationOptions = {types: []};
+    this.user = new User('', '', {
+      name: '',
+      latitude: null,
+      longitude: null
+    });
   }
 
-  public handleAddressChange(address) {
-    console.log(address)
+  handleAddressChange(address) {
+    this.user.location.latitude = address.geometry.location.lat();
+    this.user.location.longitude = address.geometry.location.lng();
+    this.user.location.name = address.formatted_address;
+  }
+
+  saveUser() {
+    console.log(this.user);
   }
 }

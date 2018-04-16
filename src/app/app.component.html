@@ -8,27 +8,37 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <div class="row">
+      <div class="row top-gap">
         <div class="col">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">
+            <input type="text" [(ngModel)]="user.firstName" class="form-control" placeholder="Name" aria-label="Username" aria-describedby="basic-addon1">
           </div>
         </div>
         <div class="col">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Last name" aria-label="Username" aria-describedby="basic-addon1">
+            <input type="text" [(ngModel)]="user.lastName" class="form-control" placeholder="Last name" aria-label="Username" aria-describedby="basic-addon1">
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col">
           <div class="input-group mb-3">
-            <input class="form-control" placeholder="Location" ngx-google-places-autocomplete [options]="{
-              types: []
-              }" #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
+            <input 
+                  class="form-control" 
+                  placeholder="Location" 
+                  ngx-google-places-autocomplete 
+                  [options]="locationOptions"
+                  #placesRef="ngx-places"
+                  (onAddressChange)="handleAddressChange($event)"/>
           </div>
         </div>
-    </div>
+    
+      </div>
+      <div class="row">
+        <div class="col">
+            <button (click)="saveUser()" type="button" class="btn btn-success">Save</button>                    
+        </div>
+      </div>
     </div>
     <div class="col">
       2 of 2
