@@ -9,3 +9,7 @@
 .invalid-input {
     border-color: #dc3545;
 }
+
+.users-header {
+    font-weight: bold;
+}
