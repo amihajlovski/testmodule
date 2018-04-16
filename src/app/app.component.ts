@@ -14,6 +14,7 @@ export class AppComponent {
   user: User;
   users: Observable<any[]>;
   locationOptions: any;
+  errorFields: any = [];
 
   constructor(db: AngularFirestore) {
     this.usersCollection = db.collection<User>('users');
@@ -33,7 +34,15 @@ export class AppComponent {
   }
 
   saveUser() {
-    console.log(this.user);
-    this.usersCollection.add(Object.assign({}, this.user));
+    console.log(this.user.validate());
+    this.errorFields = this.user.validate();
+    const userValid = this.errorFields.length === 0;
+    if(userValid){
+      this.usersCollection.add(Object.assign({}, this.user))
+      .then(res => {
+        console.log('user added');
+      })
+      .catch(reason => console.log(reason));
+    }
   }
 }

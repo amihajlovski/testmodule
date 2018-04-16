@@ -5,3 +5,7 @@
 .top-gap {
     margin-top: 20px;
 }
+
+.invalid-input {
+    border-color: #dc3545;
+}
