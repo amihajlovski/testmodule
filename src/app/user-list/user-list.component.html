@@ -1,0 +1,9 @@
+<div class="row top-gap">
+  <div class="col">
+      <ul>
+          <li *ngFor="let user of users | async">
+            {{ user.firstName }} 
+          </li>
+      </ul>
+  </div>
+</div>

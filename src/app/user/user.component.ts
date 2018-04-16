@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
 import { User } from '../models/user';
 
 @Component({
@@ -13,13 +12,11 @@ export class UserComponent implements OnInit {
   private usersCollection: AngularFirestoreCollection<User>;
   title = 'app';
   user: User;
-  users: Observable<any[]>;
   locationOptions: any;
   errorFields: any = [];
 
   constructor(db: AngularFirestore) {
     this.usersCollection = db.collection<User>('users');
-    this.users = this.usersCollection.valueChanges();
     this.locationOptions = {types: []};
     this.user = new User('', '', {
       name: '',
