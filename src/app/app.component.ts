@@ -14,4 +14,8 @@ export class AppComponent {
   constructor(db: AngularFirestore) {
     this.users = db.collection('/users').valueChanges();
   }
+
+  public handleAddressChange(address) {
+    console.log(address)
+  }
 }
