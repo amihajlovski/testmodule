@@ -12,6 +12,7 @@ import { environment } from './../environments/environment';
 import { UserComponent } from './user/user.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { GoogleMapComponent } from './google-map/google-map.component';
+import { GeoService } from './geo.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { GoogleMapComponent } from './google-map/google-map.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [GeoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
