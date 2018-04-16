@@ -1,13 +1,15 @@
-<div class="row top-gap">
-  <div class="col">
-      <span class="users-header">Users</span>
-  </div>
-</div>
-<div class="row top-gap" *ngFor="let user of users | async">
-  <div class="col">
-      <span>{{user.firstName}} {{user.lastName}} - {{user.location.name}} </span>
-  </div>
-  <div class="col">
-      <button type="button" class="btn btn-danger">Delete</button>
-  </div>
+<div>
+    <div class="row top-gap">
+        <div class="col">
+            <span class="users-header">Users</span>
+        </div>
+        </div>
+        <div class="row top-gap" *ngFor="let user of users | async">
+        <div class="col">
+            <span>{{user.firstName}} {{user.lastName}} - {{user.location.name}} </span>
+        </div>
+        <div class="col">
+            <button (click)="removeUser(user)" type="button" class="btn btn-danger">Delete</button>
+        </div>
+    </div>
 </div>

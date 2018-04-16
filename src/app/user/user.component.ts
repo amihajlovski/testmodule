@@ -15,8 +15,8 @@ export class UserComponent implements OnInit {
   locationOptions: any;
   errorFields: any = [];
 
-  constructor(db: AngularFirestore) {
-    this.usersCollection = db.collection<User>('users');
+  constructor(private readonly afs: AngularFirestore) {
+    this.usersCollection = afs.collection<User>('users');
     this.locationOptions = {types: []};
     this.user = new User('', '', {
       name: '',
@@ -34,14 +34,13 @@ export class UserComponent implements OnInit {
   }
 
   saveUser() {
-    console.log(this.user.validate());
     this.errorFields = this.user.validate();
     const userValid = this.errorFields.length === 0;
     if(userValid){
+      const id = this.afs.createId();
+      this.user.id = id;
       this.usersCollection.add(Object.assign({}, this.user))
-      .then(res => {
-        console.log('user added');
-      })
+      .then(res => {})
       .catch(reason => console.log(reason));
     }
   }
