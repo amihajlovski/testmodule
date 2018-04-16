@@ -15,7 +15,13 @@
 }
 
 .map {
+    min-height: 80%;
     height: 100%;
+    width: 100%;
+}
+
+.map-fill {
+    min-height: 600px;
     width: 100%;
 }
 
