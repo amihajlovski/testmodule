@@ -14,7 +14,7 @@ export class GeoService {
 
   constructor(private db: AngularFireDatabase) {
     /// Reference database location for GeoFire
-    this.dbRef = this.db.list('/locations');
+    this.dbRef = this.db.list('/users');
     this.geoFire = new GeoFire(this.dbRef.$ref);
    }
 

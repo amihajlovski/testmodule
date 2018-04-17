@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../models/user';
 
@@ -10,10 +10,12 @@ import { User } from '../models/user';
 })
 export class UserListComponent implements OnInit {
   users: Observable<any[]>;  
+  dbRef: any;
   private usersCollection: AngularFirestoreCollection<User>;
 
-  constructor(db: AngularFirestore) {
-    this.usersCollection = db.collection<User>('users');
+  constructor(private afs: AngularFirestore) {
+    this.afs = afs;
+    this.usersCollection = afs.collection<User>('users');
     this.users = this.usersCollection.valueChanges();    
    }
 
@@ -21,7 +23,8 @@ export class UserListComponent implements OnInit {
   }
 
   removeUser(user){
-    this.usersCollection.doc(user.id).delete();
+    const found: AngularFirestoreDocument<User> = this.afs.doc<User>('users/' + user.id);
+    found.delete();
   }
 
 }
