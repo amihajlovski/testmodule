@@ -33,7 +33,8 @@ export class UserListComponent implements OnInit {
   }
 
   calculateDistance() {
-    this.geoService.calculateDistance(this.usersData);
+    let distances = this.geoService.calculateDistance(this.usersData);
+    alert(JSON.stringify(distances, null, 4));
   }
 
 }
