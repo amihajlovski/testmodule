@@ -43,4 +43,19 @@ export class GeoService {
     })
    }
 
+   calculateDistance(users) {
+      let from = {location: null, locationName: ''};
+      let to = {location: null, locationName: ''};
+      for(let i = 0; i < users.length - 1; i++){ 
+        from.locationName = users[i].location.name;
+        from.location = [users[i].location.latitude, users[i].location.longitude];
+        for(let j = i + 1; j < users.length; j++){
+          to.locationName = users[j].location.name;
+          to.location = [users[j].location.latitude, users[j].location.longitude];
+          console.log(from.locationName + '->' + to.locationName);
+          console.log(GeoFire.distance(from.location, to.location));
+        }
+      }
+   }
+
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../models/user';
+import { GeoService } from '../geo.service';
 
 @Component({
   selector: 'app-user-list',
@@ -14,7 +15,7 @@ export class UserListComponent implements OnInit {
   private usersCollection: AngularFirestoreCollection<User>;
   usersData = [];
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, private geoService: GeoService) {
     this.afs = afs;
     this.usersCollection = afs.collection<User>('users');
     this.users = this.usersCollection.valueChanges();  
@@ -32,7 +33,7 @@ export class UserListComponent implements OnInit {
   }
 
   calculateDistance() {
-    console.log('usersData', this.usersData);
+    this.geoService.calculateDistance(this.usersData);
   }
 
 }
