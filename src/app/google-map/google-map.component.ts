@@ -4,8 +4,6 @@ import {
   AngularFirestore, 
   AngularFirestoreCollection 
 } from 'angularfire2/firestore';
-import { AngularFireDatabase } from 'angularfire2/database';
-import * as GeoFire from "geofire";
 import { Observable } from 'rxjs/Observable';
 import { User } from '../models/user';
 
@@ -16,18 +14,13 @@ import { User } from '../models/user';
 })
 export class GoogleMapComponent implements OnInit {
   private usersCollection: AngularFirestoreCollection<User>;
-  dbRef: any;
-  geoFire: any;  
   users: Observable<any[]>;  
   markers = [];
   defaultLocation: any;
 
-  constructor(afs: AngularFirestore, private db: AngularFireDatabase) { 
+  constructor(afs: AngularFirestore) { 
     this.usersCollection = afs.collection<User>('users');
     this.users = this.usersCollection.valueChanges();
-    this.dbRef = afs.app.database().ref();
-    console.log(this.dbRef);
-    this.geoFire = new GeoFire(this.dbRef);
     this.defaultLocation = {longitude: 21.4, latitude: 42};
   }
 

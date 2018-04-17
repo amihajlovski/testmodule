@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 import * as GeoFire from "geofire";
@@ -12,10 +13,9 @@ export class GeoService {
 
   hits = new BehaviorSubject([])
 
-  constructor(private db: AngularFireDatabase) {
-    /// Reference database location for GeoFire
-    this.dbRef = this.db.list('/users');
-    this.geoFire = new GeoFire(this.dbRef.$ref);
+  constructor(private afs: AngularFirestore) {
+    this.dbRef = afs.app.database().ref();
+    this.geoFire = new GeoFire(this.dbRef);
    }
 
    /// Adds GeoFire data to database
@@ -24,7 +24,6 @@ export class GeoService {
          .then(_ => console.log('location updated'))
          .catch(err => console.log(err))
    }
-
 
    /// Queries database for nearby locations
    /// Maps results to the hits BehaviorSubject
@@ -38,7 +37,6 @@ export class GeoService {
         location: location,
         distance: distance
       }
-
       let currentHits = this.hits.value
       currentHits.push(hit)
       this.hits.next(currentHits)

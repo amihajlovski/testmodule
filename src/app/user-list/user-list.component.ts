@@ -12,11 +12,15 @@ export class UserListComponent implements OnInit {
   users: Observable<any[]>;  
   dbRef: any;
   private usersCollection: AngularFirestoreCollection<User>;
+  usersData = [];
 
   constructor(private afs: AngularFirestore) {
     this.afs = afs;
     this.usersCollection = afs.collection<User>('users');
-    this.users = this.usersCollection.valueChanges();    
+    this.users = this.usersCollection.valueChanges();  
+    this.users.subscribe(usersData => {
+      this.usersData = usersData as User[]
+    });
    }
 
   ngOnInit() {
@@ -25,6 +29,10 @@ export class UserListComponent implements OnInit {
   removeUser(user){
     const found: AngularFirestoreDocument<User> = this.afs.doc<User>('users/' + user.id);
     found.delete();
+  }
+
+  calculateDistance() {
+    console.log('usersData', this.usersData);
   }
 
 }

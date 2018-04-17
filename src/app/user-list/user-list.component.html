@@ -1,6 +1,6 @@
 <div>
     <div class="row top-gap">
-        <div class="col">
+        <div class="col" *ngIf="usersData.length">
             <span class="users-header">Users</span>
         </div>
         </div>
@@ -10,6 +10,13 @@
         </div>
         <div class="col">
             <button (click)="removeUser(user)" type="button" class="btn btn-danger">Delete</button>
+        </div>
+    </div>
+    <div class="row top-gap" *ngIf="usersData.length">
+        <div class="col">
+            <button (click)="calculateDistance()" type="button" class="btn btn-primary">
+                Calculate distance
+            </button>
         </div>
     </div>
 </div>
