@@ -7,5 +7,6 @@ export const environment = {
     projectId: "angular5-42c59",
     storageBucket: "",
     messagingSenderId: "726368956278"
-  }
+  },
+  googleMapsKey: 'AIzaSyCgWbhXi6ymshpnYD2ELcit2oyskpx7wVE'
 };
