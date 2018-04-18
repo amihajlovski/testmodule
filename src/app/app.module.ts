@@ -6,6 +6,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 
@@ -33,6 +34,7 @@ import { GeoService } from './geo.service';
     BrowserModule,    
     GooglePlaceModule,
     FormsModule,
+    NgbModule.forRoot(),
     ReactiveFormsModule
   ],
   providers: [GeoService],

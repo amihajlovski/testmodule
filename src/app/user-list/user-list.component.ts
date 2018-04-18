@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../models/user';
 import { GeoService } from '../geo.service';
 
@@ -12,10 +13,12 @@ import { GeoService } from '../geo.service';
 export class UserListComponent implements OnInit {
   users: Observable<any[]>;  
   dbRef: any;
+  closeResult: string;
   private usersCollection: AngularFirestoreCollection<User>;
   usersData = [];
 
   constructor(
+    private modalService: NgbModal,
     private afs: AngularFirestore, 
     private geoService: GeoService
   ) {
@@ -50,6 +53,24 @@ export class UserListComponent implements OnInit {
   calculateDistance() {
     let distances = this.geoService.calculateDistance(this.usersData);
     alert(JSON.stringify(distances, null, 4));
+  }
+
+  open(content) {
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 
 }
