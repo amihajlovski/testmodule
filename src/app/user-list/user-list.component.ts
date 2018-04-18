@@ -15,16 +15,31 @@ export class UserListComponent implements OnInit {
   private usersCollection: AngularFirestoreCollection<User>;
   usersData = [];
 
-  constructor(private afs: AngularFirestore, private geoService: GeoService) {
+  constructor(
+    private afs: AngularFirestore, 
+    private geoService: GeoService
+  ) {
     this.afs = afs;
     this.usersCollection = afs.collection<User>('users');
-    this.users = this.usersCollection.valueChanges();  
+  }
+
+  ngOnInit() {
+    this.loadUsers();
+  }
+
+  loadUsers(){
+    this.users = this.usersCollection.snapshotChanges().map(  
+      changes => {  
+        return changes.map(  
+          a => {  
+            const data = a.payload.doc.data() as User;  
+            data.id = a.payload.doc.id;  
+            return data;  
+          });  
+      });
     this.users.subscribe(usersData => {
       this.usersData = usersData as User[]
     });
-   }
-
-  ngOnInit() {
   }
 
   removeUser(user){
