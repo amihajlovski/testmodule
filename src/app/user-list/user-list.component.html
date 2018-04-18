@@ -1,18 +1,3 @@
-<ng-template #content let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        <h4 class="modal-title">Modal title</h4>
-        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <p>One fine body&hellip;</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
-    </div>
-</ng-template>
-
 <div>
     <div class="row top-gap">
         <div class="col" *ngIf="usersData.length">
@@ -24,10 +9,9 @@
             <span>{{user.firstName}} {{user.lastName}} - {{user.location.name}} </span>
         </div>
         <div class="col">
-            <button (click)="open(content)" type="button" class="btn btn-primary">Edit</button>
             <button (click)="removeUser(user)" type="button" class="btn btn-danger">Delete</button>
         </div>
-    </div>
+    </div> 
     <div class="row top-gap" *ngIf="usersData.length">
         <div class="col">
             <button (click)="calculateDistance()" type="button" class="btn btn-primary">
