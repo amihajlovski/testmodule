@@ -79,4 +79,10 @@ export class UserEditComponent implements OnInit {
     this.router.navigate(['']);
   }
 
+  updateUser() {
+    this.afs.doc<User>('users/' + this.userId)
+      .set(this.user)
+      .then(() => this.router.navigate(['']));
+  }
+
 }
