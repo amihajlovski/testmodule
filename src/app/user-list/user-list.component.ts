@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import {Router} from "@angular/router";
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../models/user';
 import { GeoService } from '../geo.service';
 
@@ -16,11 +17,13 @@ export class UserListComponent implements OnInit {
   dbRef: any;
   usersData = [];
   userForEditing: User;
+  distances: any;
 
   constructor(
     private afs: AngularFirestore, 
     private geoService: GeoService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
   ) {
     this.afs = afs;
     this.usersCollection = afs.collection<User>('users');
@@ -50,9 +53,12 @@ export class UserListComponent implements OnInit {
     found.delete();
   }
 
-  calculateDistance() {
-    let distances = this.geoService.calculateDistance(this.usersData);
-    alert(JSON.stringify(distances, null, 4));
+  open(content) {
+    this.distances = this.geoService.calculateDistance(this.usersData);
+    this.modalService.open(content).result.then(
+      (result) => {}, 
+      (reason) => {console.log(reason)}
+    );
   }
 
   editUser(id){

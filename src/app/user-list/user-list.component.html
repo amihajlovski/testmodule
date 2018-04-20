@@ -1,3 +1,22 @@
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">Distances</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class=" modal-body">
+        <div *ngFor="let item of distances">
+            <p>Direction: {{item.direction}}</p>
+            <p>Distance: {{item.distance.toFixed(2)}} km</p>
+            <p>-------------------------------</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+    </div>
+</ng-template>
+
 <div>
     <div class="row top-gap">
         <div class="col" *ngIf="usersData.length">
@@ -15,7 +34,7 @@
     </div> 
     <div class="row top-gap" *ngIf="usersData.length">
         <div class="col">
-            <button (click)="calculateDistance()" type="button" class="btn btn-primary">
+            <button (click)="open(content)" type="button" class="btn btn-primary">
                 Calculate distance
             </button>
         </div>
