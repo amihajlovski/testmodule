@@ -9,6 +9,7 @@
             <span>{{user.firstName}} {{user.lastName}} - {{user.location.name}} </span>
         </div>
         <div class="col">
+            <button (click)="editUser(user.id)" type="button" class="btn btn-primary">Edit</button>
             <button (click)="removeUser(user)" type="button" class="btn btn-danger">Delete</button>
         </div>
     </div> 

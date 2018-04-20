@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
+import {Router} from "@angular/router";
 import { User } from '../models/user';
 import { GeoService } from '../geo.service';
 
@@ -18,7 +19,8 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private afs: AngularFirestore, 
-    private geoService: GeoService
+    private geoService: GeoService,
+    private router: Router
   ) {
     this.afs = afs;
     this.usersCollection = afs.collection<User>('users');
@@ -53,4 +55,7 @@ export class UserListComponent implements OnInit {
     alert(JSON.stringify(distances, null, 4));
   }
 
+  editUser(id){
+    this.router.navigate(['edit-user/' + id]);
+  }
 }
